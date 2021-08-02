@@ -1,11 +1,12 @@
+/* eslint-disable prettier/prettier */
 import React, { useContext, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from 'react-native';
-import Background from '../components/Background'
-import { WhiteLogo } from '../components/WhiteLogo'
+import Background from '../components/Background';
+import { WhiteLogo } from '../components/WhiteLogo';
 import { useForm } from '../hooks/useForm';
 import { loginStyles } from '../theme/loginTheme';
-import firebase from '../firebase'
-import  { useNavigation } from '@react-navigation/native';
+import firebase from '../firebase';
+import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../context/auth/authContext';
 
 const LoginScreen = () => {
@@ -16,106 +17,99 @@ const LoginScreen = () => {
 
 
     const { email, password, onChange } = useForm({
-        email: '',
-        password: ''
-    })
+        email: 'jose@gmail.com',
+        password: 'armando22',
+    });
 
-    const onLogin =  async () => {
+    const onLogin = async() => {
 
-      
-         const resp =  await firebase.auth.signInWithEmailAndPassword(email, password).catch(err => {
+
+        const resp = await firebase.auth.signInWithEmailAndPassword(email, password).catch(err => {
             Alert.alert(
-                "Información",
-                 err.message,
-                [
-                  {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                  },
-                  { text: "OK", onPress: () => console.log("OK Pressed") }
+                'Información',
+                err.message, [{
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                    },
+                    { text: 'OK', onPress: () => console.log('OK Pressed') },
                 ]
-              ); 
-             return err;
-         })
- 
-      
-         if(resp.hasOwnProperty('user')){
-             
-               const us = await firebase.db.collection('usuarios').doc(resp.user.uid).get();
+            );
+            return err;
+        });
 
-               const usuario = us.data();
 
-               login(usuario);
+        if (resp.hasOwnProperty('user')) {
 
-               navigation.navigate('HomeScreen');
-         }
-        
-    }
+            const us = await firebase.db.collection('users').doc(resp.user.uid).get();
 
-    return (
-        <>
-            { /* Background */}
-            <Background/>
+            const usuario = us.data();
 
-            <KeyboardAvoidingView
-                        style={{ flex: 1}}
-                        behavior={ (Platform.OS === 'ios') ? 'padding' : 'height'}
-            > 
+            console.log('SET', usuario);
 
-            {/* Logo */}
-            <WhiteLogo/>
+            login(usuario);
 
-            <View style={loginStyles.container}>
-            <Text style={ loginStyles.title}></Text>
+            navigation.navigate('HomeScreen');
+        }
 
-            <Text style={ loginStyles.label}>Email</Text>
+    };
 
-            <TextInput
-                 placeholder="Email"
-                 placeholderTextColor="rgba(255,255,255,0.4)"
-                 keyboardType="email-address"
-                 autoCapitalize="none"
-                 style={loginStyles.inputField}
-                 value={email}
-                 onPress={onLogin}
-                 onChangeText={ (value) => onChange(value,'email')}
-            />
+    return ( <
+        >
+        { /* Background */ } < Background / >
+        <
+        KeyboardAvoidingView style = {
+            { flex: 1 }
+        }
+        behavior = { Platform.OS === 'ios' ? 'padding' : 'height' } > { /* Logo */ } < WhiteLogo / >
+        <
+        View style = { loginStyles.container } >
+        <
+        Text style = { loginStyles.title }
+        />  <
+        Text style = { loginStyles.label } > Email < /Text > <
+        TextInput placeholder = "Email"
+        placeholderTextColor = "rgba(255,255,255,0.4)"
+        keyboardType = "email-address"
+        autoCapitalize = "none"
+        style = { loginStyles.inputField }
+        value = { email }
+        onPress = { onLogin }
+        onChangeText = { value => onChange(value, 'email') }
+        /> <
+        Text style = { loginStyles.label } > Password < /Text> <
+        TextInput placeholder = "********"
+        placeholderTextColor = "rgba(255,255,255,0.4)"
+        autoCapitalize = "none"
+        secureTextEntry autoCorrect = { false }
+        style = { loginStyles.inputField }
+        value = { password }
+        onSubmitEditing = { onLogin }
+        onChangeText = { value => onChange(value, 'password') }
+        /> <
+        View style = { loginStyles.buttonContainer } >
+        <
+        TouchableOpacity style = { loginStyles.button }
+        onPress = { onLogin } >
+        <
+        Text style = { loginStyles.buttonTexto } > Login < /Text>{' '} < /
+        TouchableOpacity > { ' ' } <
+        /View>{' '} <
+        View style = {
+            { alignItems: 'center', marginTop: 20 }
+        } >
+        <
+        TouchableOpacity onPress = {
+            () => navigation.navigate('RegisterScreen')
+        } >
+        <
+        Text style = { loginStyles.buttonTexto } > Registrar < /Text>{' '} < /
+        TouchableOpacity > { ' ' } <
+        /View>{' '} < /
+        View > <
+        /KeyboardAvoidingView>{' '} < / > ;
 
-            <Text style={ loginStyles.label}>Password</Text>
+    );
+};
 
-            <TextInput
-                placeholder="********"
-                placeholderTextColor="rgba(255,255,255,0.4)"
-                autoCapitalize="none"
-                secureTextEntry
-                autoCorrect={false}
-                style={loginStyles.inputField}
-                value={password}
-                onSubmitEditing={onLogin}
-                onChangeText={ (value) => onChange(value,'password')}
-            />
-
-            <View style={loginStyles.buttonContainer}>
-                  <TouchableOpacity
-                      style={loginStyles.button}
-                      onPress={onLogin}
-                  >
-                        <Text style={loginStyles.buttonTexto}>Login</Text>
-                  </TouchableOpacity>
-            </View>
-            <View style={{ alignItems: 'center', marginTop: 20}}>
-            <TouchableOpacity
-                      onPress={() => navigation.navigate('RegisterScreen')}
-                  >
-                        <Text style={loginStyles.buttonTexto}>Registrar</Text>
-                  </TouchableOpacity>
-            </View>
-            </View>
-
-            </KeyboardAvoidingView>
-        </>
-    )
-}
-
-export default LoginScreen
+export default LoginScreen;

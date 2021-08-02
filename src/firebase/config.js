@@ -1,11 +1,11 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyAJeLb0uZO-OmgsFGy6p-Bt-sD7J7JxVlw",
-    authDomain: "movilapp-fd1f3.firebaseapp.com",
-    projectId: "movilapp-fd1f3",
-    storageBucket: "movilapp-fd1f3.appspot.com",
-    messagingSenderId: "520662253670",
-    appId: "1:520662253670:web:bbc8bd95df4331508c6da7",
-    measurementId: "G-004WTC54V5"
-  };
+  apiKey: 'AIzaSyAbKmgUwQtwnIsBMgxcDnN99UW_tEn6vT0',
+  authDomain: 'transportapp-1529717660459.firebaseapp.com',
+  databaseURL: 'https://transportapp-1529717660459.firebaseio.com',
+  projectId: 'transportapp-1529717660459',
+  storageBucket: 'transportapp-1529717660459.appspot.com',
+  messagingSenderId: '656456418977',
+  appId: '1:656456418977:web:00361bd591077a385112e0',
+};
 
-  export default firebaseConfig;
+export default firebaseConfig;
